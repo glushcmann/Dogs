@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FavouritesViewController.swift
 //  Dogs
 //
 //  Created by Никита on 21.07.2020.
@@ -8,13 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class FavouritesViewController: UIViewController {
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.navigationItem.title = "Favourites"
     }
-
-
+    
 }
-
