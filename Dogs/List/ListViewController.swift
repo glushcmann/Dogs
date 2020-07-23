@@ -11,16 +11,13 @@ import UIKit
 class ListViewController: UITableViewController {
     
     static var breedTitle: String = ""
-    static var breedIndexPathRow: Int = 0
     private let cellID = "cellID"
     
     var dogBreed: [Breed]!
-//    var dogImage: [Image]!
     let router = ApiRouter()
     var breedResults: [String] = []
     var subBreedResults: [String] = []
     var finalResult: [String : [String]] = ["":[""]]
-//    var imageResults = [String]()
     
     override func viewDidLoad() {
         
@@ -32,7 +29,6 @@ class ListViewController: UITableViewController {
         tableView.dataSource = self
         
         requestFromApi()
-//        requestImages()
         
     }
     
@@ -45,11 +41,6 @@ class ListViewController: UITableViewController {
                 print("Error: \(String(describing: error))")
             }
             
-//            for (key, value) in self.dogBreed[0].message {
-//                self.breedResults.append(key)
-//                self.subBreedResults.append(contentsOf: value)
-//            }
-            
             self.finalResult = self.dogBreed[0].message
             let breedArray = self.dogBreed[0].message.keys.sorted()
             
@@ -59,25 +50,6 @@ class ListViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
-    
-//    func requestImages() {
-//        router.requestImages { (images, error) in
-//
-//            if let imageData = images {
-//                self.dogImage = imageData
-//            } else {
-//                print("Error: \(String(describing: error))")
-//            }
-//
-//            let imageArray = self.dogImage[0].message
-//            for imageType in imageArray {
-//                self.imageResults.append(imageType)
-//            }
-//
-//            self.imageCollectionView.reloadData()
-//            self.loading.stopAnimating()
-//        }
-//    }
     
 }
 
@@ -106,7 +78,6 @@ extension ListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         ListViewController.breedTitle = breedResults[indexPath.row].capitalized
-        ListViewController.breedIndexPathRow = indexPath.row
         
         if finalResult[breedResults[indexPath.row]]!.count != 0 {
             navigationController?.pushViewController(SublistViewController(), animated: false)

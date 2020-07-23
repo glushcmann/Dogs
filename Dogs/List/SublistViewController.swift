@@ -10,7 +10,9 @@ import UIKit
 
 class SublistViewController: UITableViewController {
     
+    static var subBreedTitle: String = ""
     private let cellID = "cellID"
+    
     let breed: String = ListViewController.breedTitle
     var dogBreed: [Breed]!
     let router = ApiRouter()
@@ -76,6 +78,9 @@ extension SublistViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        SublistViewController.subBreedTitle = subBreedResults[indexPath.row].capitalized
+        let vc = ImageListViewController()
+        vc.navigationController?.navigationItem.title = subBreedResults[indexPath.row].capitalized
         self.navigationController?.pushViewController(ImageListViewController(), animated: false)
         
     }
