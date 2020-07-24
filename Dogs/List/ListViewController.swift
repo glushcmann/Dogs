@@ -80,9 +80,9 @@ extension ListViewController {
         ListViewController.breedTitle = breedResults[indexPath.row].capitalized
         
         if finalResult[breedResults[indexPath.row]]!.count != 0 {
-            navigationController?.pushViewController(SublistViewController(), animated: false)
+            navigationController?.pushViewController(SublistViewController(), animated: true)
         } else {
-            navigationController?.pushViewController(ImageListViewController(), animated: false)
+            navigationController?.pushViewController(ImageListViewController(), animated: true)
         }
     }
     

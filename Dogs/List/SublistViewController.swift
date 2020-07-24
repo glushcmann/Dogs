@@ -16,21 +16,21 @@ class SublistViewController: UITableViewController {
     let breed: String = ListViewController.breedTitle
     var dogBreed: [Breed]!
     let router = ApiRouter()
-    var breedResults: [String] = []
     var subBreedResults: [String] = []
-    var finalResult: [String : [String]] = ["":[""]]
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.navigationItem.title = breed
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
-
-        tableView.delegate = self
-        tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         
         requestFromApi()
         
+    }
+    
+    @objc func popVC() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func requestFromApi() {
@@ -43,13 +43,8 @@ class SublistViewController: UITableViewController {
             }
             
             let line = ListViewController.breedTitle.lowercased()
-            self.finalResult = self.dogBreed[0].message
-            let breedArray = self.dogBreed[0].message.keys.sorted()
             let subBreedArray = self.dogBreed[0].message[line]
             
-            for type in breedArray {
-                self.breedResults.append(type)
-            }
             for type in subBreedArray! {
                 self.subBreedResults.append(type)
             }
@@ -82,6 +77,7 @@ extension SublistViewController {
         let vc = ImageListViewController()
         vc.navigationController?.navigationItem.title = subBreedResults[indexPath.row].capitalized
         self.navigationController?.pushViewController(ImageListViewController(), animated: false)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
         
     }
     
