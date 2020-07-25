@@ -69,7 +69,22 @@ class ImageListViewController: UICollectionViewController {
             if let imageData = images {
                 self.dogImage = imageData
             } else {
-                print("Error: \(String(describing: error))")
+                
+                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                      switch action.style{
+                      case .default:
+                            print("default")
+                      case .cancel:
+                            print("cancel")
+
+                      case .destructive:
+                            print("destructive")
+                      @unknown default:
+                        print("Error: \(String(describing: error))")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
+                
             }
 
             let imageArray = self.dogImage[0].message

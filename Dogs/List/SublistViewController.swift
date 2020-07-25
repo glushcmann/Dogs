@@ -44,7 +44,22 @@ class SublistViewController: UITableViewController {
             if let data = data {
                 self.dogBreed = data
             } else {
-                print("Error: \(String(describing: error))")
+                
+                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                      switch action.style{
+                      case .default:
+                            print("default")
+                      case .cancel:
+                            print("cancel")
+
+                      case .destructive:
+                            print("destructive")
+                      @unknown default:
+                        print("Error: \(String(describing: error))")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
+                
             }
             
             let line = ListViewController.breedTitle.lowercased()
