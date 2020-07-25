@@ -19,6 +19,11 @@ class ListViewController: UITableViewController {
     var subBreedResults: [String] = []
     var finalResult: [String : [String]] = ["":[""]]
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()

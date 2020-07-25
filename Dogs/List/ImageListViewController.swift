@@ -18,6 +18,21 @@ class ImageListViewController: UICollectionViewController {
     var imageResults = [String]()
     let router = ApiRouter()
     
+    let likeButton: UIButton = {
+        let button = UIButton()
+        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
+        button.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+        return button
+    }()
+    
+    func setupUI() {
+        
+        self.view.addSubview(likeButton)
+        addConstrint(withVisualFormat: "H:[v0]-50-|", views: likeButton)
+        addConstrint(withVisualFormat: "V:[v0]-50-|", views: likeButton)
+        
+    }
+    
     @objc func sharePhoto() {
     }
     
@@ -25,7 +40,7 @@ class ImageListViewController: UICollectionViewController {
         
         super.viewDidLoad()
         
-//        self.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.title = breed
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(sharePhoto))
         
@@ -44,6 +59,7 @@ class ImageListViewController: UICollectionViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         
+        setupUI()
         requestImages()
     }
     
