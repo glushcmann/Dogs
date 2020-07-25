@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavouritesViewController: UIViewController {
+class FavouritesViewController: UITableViewController {
     
     override func viewDidLoad() {
         self.navigationItem.title = "Favourites"

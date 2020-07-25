@@ -23,6 +23,7 @@ class ListViewController: UITableViewController {
         
         super.viewDidLoad()
         self.navigationItem.title = "Breeds"
+        self.navigationController?.interactivePopGestureRecognizer!.isEnabled = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
 
         tableView.delegate = self

@@ -25,12 +25,13 @@ class ImageListViewController: UICollectionViewController {
         
         super.viewDidLoad()
         
+//        self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.title = breed
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(sharePhoto))
         
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0.0
-        layout.minimumLineSpacing = 20.0
+        layout.minimumLineSpacing = 0.0
         layout.itemSize = UIScreen.main.bounds.size
         layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
 

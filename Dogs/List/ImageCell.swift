@@ -30,6 +30,7 @@ class ImageCell: BaseCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -38,7 +39,7 @@ class ImageCell: BaseCell {
         addSubview(imageView)
         
         addConstrint(withVisualFormat: "H:|[v0]|", views: imageView)
-        addConstrint(withVisualFormat: "V:|-200-[v0]-200-|", views: imageView)
+        addConstrint(withVisualFormat: "V:|[v0]|", views: imageView)
         
     }
 }
