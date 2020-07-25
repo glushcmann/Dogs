@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Kingfisher
 
-class ImageListViewController: UIViewController {
+class ImageListViewController: UICollectionViewController {
     
+    private let cellID = "cellID"
     var breed: String = ListViewController.breedTitle
     let subBreed: String = SublistViewController.subBreedTitle
     var dogImage: [Image]!
@@ -25,6 +27,21 @@ class ImageListViewController: UIViewController {
         
         self.navigationItem.title = breed
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(sharePhoto))
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumInteritemSpacing = 0.0
+        layout.minimumLineSpacing = 20.0
+        layout.itemSize = UIScreen.main.bounds.size
+        layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+
+        collectionView.collectionViewLayout = layout
+        collectionView.backgroundColor = .systemBackground
+        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
         
         requestImages()
     }
@@ -43,10 +60,25 @@ class ImageListViewController: UIViewController {
                 self.imageResults.append(imageType)
             }
 
-//            self.imageCollectionView.reloadData()
+            self.collectionView.reloadData()
 //            self.loading.stopAnimating()
         }
     }
     
 }
 
+extension ImageListViewController {
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageResults.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ImageCell
+     
+        cell.imageView.kf.setImage(with: URL(string: imageResults[indexPath.row]), placeholder: UIImage(named: ""))
+
+        return cell
+    }
+}

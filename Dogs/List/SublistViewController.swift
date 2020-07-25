@@ -74,9 +74,12 @@ extension SublistViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         SublistViewController.subBreedTitle = subBreedResults[indexPath.row].capitalized
+        
+        let layout = UICollectionViewFlowLayout()
         let vc = ImageListViewController()
+        
         vc.navigationController?.navigationItem.title = subBreedResults[indexPath.row].capitalized
-        self.navigationController?.pushViewController(ImageListViewController(), animated: false)
+        self.navigationController?.pushViewController(ImageListViewController(collectionViewLayout: layout), animated: false)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
         
     }

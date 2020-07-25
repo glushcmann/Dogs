@@ -82,7 +82,10 @@ extension ListViewController {
         if finalResult[breedResults[indexPath.row]]!.count != 0 {
             navigationController?.pushViewController(SublistViewController(), animated: true)
         } else {
-            navigationController?.pushViewController(ImageListViewController(), animated: true)
+            
+            let layout = UICollectionViewFlowLayout()
+            navigationController?.pushViewController(ImageListViewController(collectionViewLayout: layout), animated: true)
+            
         }
     }
     
