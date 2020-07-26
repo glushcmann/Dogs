@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class ImageListViewController: UICollectionViewController {
     
@@ -15,6 +16,7 @@ class ImageListViewController: UICollectionViewController {
     
     var breed: String = ""
     var imageURL: String = ""
+    var isLiked: Bool = false
     
     var dogImage: [Image]!
     var imageResults = [String]()
@@ -22,8 +24,7 @@ class ImageListViewController: UICollectionViewController {
     
     let likeButton: UIButton = {
         let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
-        button.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+        button.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
         return button
     }()
     
@@ -42,6 +43,31 @@ class ImageListViewController: UICollectionViewController {
         addConstrint(withVisualFormat: "V:[v0]-50-|", views: likeButton)
         
         load.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
+        
+    }
+    
+    @objc func likeTapped() {
+        
+        let fav = Favourite()
+        fav.Breed = [breed : [imageURL]]
+        
+        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
+        
+        if !isLiked {
+            
+            likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
+            
+            guard let realm = try? Realm() else { return }
+            try? realm.write { realm.add(fav) }
+            
+        } else {
+            
+            likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+            
+            guard let realm = try? Realm() else { return }
+            try? realm.write { realm.delete(fav) }
+            
+        }
         
     }
     
