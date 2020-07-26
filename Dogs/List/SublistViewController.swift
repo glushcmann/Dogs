@@ -10,10 +10,9 @@ import UIKit
 
 class SublistViewController: UITableViewController {
     
-    var navTitle: String = ""
     private let cellID = "cellID"
     
-    let breed: String = ListViewController.breedTitle
+    var breed: String = ""
     var dogBreed: [Breed]!
     let router = ApiRouter()
     var subBreedResults: [String] = []
@@ -61,8 +60,8 @@ class SublistViewController: UITableViewController {
                 
             }
             
-            let line = ListViewController.breedTitle.lowercased()
-            let subBreedArray = self.dogBreed[0].message[line]
+            self.breed = self.breed.lowercased()
+            let subBreedArray = self.dogBreed[0].message[self.breed]
             
             for type in subBreedArray! {
                 self.subBreedResults.append(type)

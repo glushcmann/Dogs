@@ -10,7 +10,6 @@ import UIKit
 
 class ListViewController: UITableViewController {
     
-    static var breedTitle: String = ""
     private let cellID = "cellID"
     
     var dogBreed: [Breed]!
@@ -102,11 +101,10 @@ extension ListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        ListViewController.breedTitle = breedResults[indexPath.row].capitalized
-        
         if finalResult[breedResults[indexPath.row]]!.count != 0 {
             
             let vc = SublistViewController()
+            vc.breed = breedResults[indexPath.row].capitalized
             vc.navigationItem.title = breedResults[indexPath.row].capitalized
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Breeds", style: .plain, target: self, action: #selector(popVC))
             navigationController?.pushViewController(vc, animated: true)
