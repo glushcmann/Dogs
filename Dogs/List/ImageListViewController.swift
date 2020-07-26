@@ -12,6 +12,10 @@ import Kingfisher
 class ImageListViewController: UICollectionViewController {
     
     private let cellID = "cellID"
+    
+    var breed: String = ""
+    var imageURL: String = ""
+    
     var dogImage: [Image]!
     var imageResults = [String]()
     let router = ApiRouter()
@@ -25,6 +29,7 @@ class ImageListViewController: UICollectionViewController {
     
     let load: UIActivityIndicatorView = {
         let load = UIActivityIndicatorView()
+        load.style = UIActivityIndicatorView.Style.large
         return load
     }()
     
@@ -47,7 +52,7 @@ class ImageListViewController: UICollectionViewController {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        let textToShare = "Photo from Dog app"
+        let textToShare = "Photo from Dog App"
         
         let objectsToShare = [textToShare, image!] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)

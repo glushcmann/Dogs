@@ -8,38 +8,47 @@
 
 //TODO: add alert 
 
-import Foundation
+import UIKit
 import Alamofire
 
-class ApiRouter {
+class ApiRouter: UIViewController {
 
     func requestBreeds(completion: @escaping([Breed]?, Error?) -> Void) {
         
         let URL = "https://dog.ceo/api/breeds/list/all"
         
         AF.request(URL).responseJSON { response in
-            let decoder = JSONDecoder()
-            if let result = try?
-                decoder.decode(Breed.self, from: response.data!) {
-                completion([result], nil)
-            } else {
-                print("Unable to decode data")
+            switch response.result {
+                
+            case .success :
+                
+                let decoder = JSONDecoder()
+                if let result = try?
+                    decoder.decode(Breed.self, from: response.data!) {
+                    completion([result], nil)
+                } else {
+                    print("Unable to decode data")
+                }
+                
+            case .failure(let error):
+                
+                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                      switch action.style{
+                      case .default:
+                            print("default")
+                      case .cancel:
+                            print("cancel")
+
+                      case .destructive:
+                            print("destructive")
+                      @unknown default:
+                        print("Error: \(String(describing: error))")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
+                
             }
-        }
-    }
-    
-    func requestSubBreeds(completion: @escaping([Breed]?, Error?) -> Void) {
-        
-        let URL = "https://dog.ceo/api/breed/hound/list"
-        
-        AF.request(URL).responseJSON { response in
-            let decoder = JSONDecoder()
-            if let result = try?
-                decoder.decode(Breed.self, from: response.data!) {
-                completion([result], nil)
-            } else {
-                print("Unable to decode data")
-            }
+            
         }
     }
     
@@ -48,12 +57,31 @@ class ApiRouter {
         let URL = "https://dog.ceo/api/breeds/image/random/10"
         
         AF.request(URL).responseJSON { response in
-            let decoder = JSONDecoder()
-            if let result = try?
-                decoder.decode(Image.self, from: response.data!) {
-                completion([result], nil)
-            } else {
-                print("Unable to decode data")
+            switch response.result {
+                
+            case .success :
+                let decoder = JSONDecoder()
+                if let result = try?
+                    decoder.decode(Image.self, from: response.data!) {
+                    completion([result], nil)
+                }
+                
+            case .failure(let error):
+            
+                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                      switch action.style{
+                      case .default:
+                            print("default")
+                      case .cancel:
+                            print("cancel")
+
+                      case .destructive:
+                            print("destructive")
+                      @unknown default:
+                        print("Error: \(String(describing: error))")
+                    }}))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

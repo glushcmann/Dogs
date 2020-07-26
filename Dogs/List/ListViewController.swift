@@ -15,7 +15,6 @@ class ListViewController: UITableViewController {
     var dogBreed: [Breed]!
     let router = ApiRouter()
     var breedResults: [String] = []
-    var subBreedResults: [String] = []
     var finalResult: [String : [String]] = ["":[""]]
     
     override func viewWillAppear(_ animated: Bool) {

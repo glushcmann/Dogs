@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Realm
 import RealmSwift
 
 struct Breed : Codable {
@@ -20,6 +19,12 @@ struct Image: Codable {
     let message: [String]
 }
 
-class Dog: Object {
-    @objc dynamic var breed: [String : [String]] = [:]
+class Favourite: Object {
+    
+    @objc dynamic var Breed: [String : [String]] = [:]
+    
+    override static func primaryKey() -> String? {
+        return "Breed"
+    }
+    
 }
