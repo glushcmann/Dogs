@@ -34,6 +34,24 @@ class ImageListViewController: UICollectionViewController {
     }
     
     @objc func sharePhoto() {
+        
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        let textToShare = "Photo from Dog app"
+        
+        let objectsToShare = [textToShare, image!] as [Any]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+        //Excluded Activities
+        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
+        //
+
+        activityVC.popoverPresentationController?.sourceView = UIView()
+        self.present(activityVC, animated: true, completion: nil)
+        
     }
     
     override func viewDidLoad() {

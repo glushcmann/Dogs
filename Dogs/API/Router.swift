@@ -6,6 +6,8 @@
 //  Copyright © 2020 Nikita Glushchenko. All rights reserved.
 //
 
+//TODO: add alert 
+
 import Foundation
 import Alamofire
 

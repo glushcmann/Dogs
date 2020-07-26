@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Realm
+import RealmSwift
 
 struct Breed : Codable {
     let status: String
@@ -16,4 +18,8 @@ struct Breed : Codable {
 struct Image: Codable {
     let status: String
     let message: [String]
+}
+
+class Dog: Object {
+    @objc dynamic var breed: [String : [String]] = [:]
 }
