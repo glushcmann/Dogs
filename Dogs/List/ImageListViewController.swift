@@ -23,11 +23,20 @@ class ImageListViewController: UICollectionViewController {
         return button
     }()
     
+    let load: UIActivityIndicatorView = {
+        let load = UIActivityIndicatorView()
+        return load
+    }()
+    
     func setupUI() {
         
         self.view.addSubview(likeButton)
+        self.view.addSubview(load)
+        
         addConstrint(withVisualFormat: "H:[v0]-50-|", views: likeButton)
         addConstrint(withVisualFormat: "V:[v0]-50-|", views: likeButton)
+        
+        load.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
         
     }
     
@@ -43,9 +52,7 @@ class ImageListViewController: UICollectionViewController {
         let objectsToShare = [textToShare, image!] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
 
-        //Excluded Activities
         activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
-        //
 
         activityVC.popoverPresentationController?.sourceView = UIView()
         self.present(activityVC, animated: true, completion: nil)
@@ -55,6 +62,8 @@ class ImageListViewController: UICollectionViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        load.startAnimating()
         
         self.tabBarController?.tabBar.isHidden = true
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(sharePhoto))
@@ -108,7 +117,8 @@ class ImageListViewController: UICollectionViewController {
             }
 
             self.collectionView.reloadData()
-//            self.loading.stopAnimating()
+            self.load.stopAnimating()
+            
         }
     }
     
