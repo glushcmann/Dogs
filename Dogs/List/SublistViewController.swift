@@ -10,7 +10,7 @@ import UIKit
 
 class SublistViewController: UITableViewController {
     
-    static var subBreedTitle: String = ""
+    var navTitle: String = ""
     private let cellID = "cellID"
     
     let breed: String = ListViewController.breedTitle
@@ -26,7 +26,6 @@ class SublistViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.navigationItem.title = breed
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
         
@@ -93,13 +92,10 @@ extension SublistViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        SublistViewController.subBreedTitle = subBreedResults[indexPath.row].capitalized
-        
         let layout = UICollectionViewFlowLayout()
-        let vc = ImageListViewController()
-        
-        vc.navigationController?.navigationItem.title = subBreedResults[indexPath.row].capitalized
-        self.navigationController?.pushViewController(ImageListViewController(collectionViewLayout: layout), animated: false)
+        let vc = ImageListViewController(collectionViewLayout: layout)
+        vc.navigationItem.title = subBreedResults[indexPath.row].capitalized
+        self.navigationController?.pushViewController(vc, animated: false)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
         
     }

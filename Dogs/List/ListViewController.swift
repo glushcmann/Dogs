@@ -24,6 +24,10 @@ class ListViewController: UITableViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    @objc func popVC() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -101,11 +105,19 @@ extension ListViewController {
         ListViewController.breedTitle = breedResults[indexPath.row].capitalized
         
         if finalResult[breedResults[indexPath.row]]!.count != 0 {
-            navigationController?.pushViewController(SublistViewController(), animated: true)
+            
+            let vc = SublistViewController()
+            vc.navigationItem.title = breedResults[indexPath.row].capitalized
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Breeds", style: .plain, target: self, action: #selector(popVC))
+            navigationController?.pushViewController(vc, animated: true)
+            
         } else {
             
             let layout = UICollectionViewFlowLayout()
-            navigationController?.pushViewController(ImageListViewController(collectionViewLayout: layout), animated: true)
+            let vc = ImageListViewController(collectionViewLayout: layout)
+            vc.navigationItem.title = breedResults[indexPath.row].capitalized
+            navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
+            navigationController?.pushViewController(vc, animated: true)
             
         }
     }

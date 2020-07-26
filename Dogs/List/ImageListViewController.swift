@@ -12,8 +12,6 @@ import Kingfisher
 class ImageListViewController: UICollectionViewController {
     
     private let cellID = "cellID"
-    var breed: String = ListViewController.breedTitle
-    let subBreed: String = SublistViewController.subBreedTitle
     var dogImage: [Image]!
     var imageResults = [String]()
     let router = ApiRouter()
@@ -59,7 +57,6 @@ class ImageListViewController: UICollectionViewController {
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.isHidden = true
-        self.navigationItem.title = breed
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(sharePhoto))
         
         let layout = UICollectionViewFlowLayout()
