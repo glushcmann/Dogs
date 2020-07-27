@@ -82,7 +82,6 @@ class ImageListViewController: UICollectionViewController {
 //            try? realm.write { realm.delete(fav) }
             
         }
-        
     }
     
     @objc func sharePhoto() {
