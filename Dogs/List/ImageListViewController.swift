@@ -16,11 +16,18 @@ class ImageListViewController: UICollectionViewController {
     
     var breed: String = ""
     var imageURL: String = ""
+    var imageURLArray: [String]!
     var isLiked: Bool = false
+    
+//    let favorites = Favourite()
+//    let dogs = Dogs()
     
     var dogImage: [Image]!
     var imageResults = [String]()
     let router = ApiRouter()
+    
+    let defaults = UserDefaults.standard
+    let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
     
     let likeButton: UIButton = {
         let button = UIButton()
@@ -44,28 +51,35 @@ class ImageListViewController: UICollectionViewController {
         
         load.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
         
+        likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+        
+//        if dogs.images!.isEmpty {
+//            isLiked = false
+//            likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+//        } else {
+//            isLiked = true
+//            likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
+//        }
+        
     }
     
     @objc func likeTapped() {
-        
-        let fav = Favourite()
-        fav.Breed = [breed : [imageURL]]
-        
-        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
-        
-        if !isLiked {
+    
+        if isLiked {
             
-            likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
+            likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+            isLiked = false
             
-            guard let realm = try? Realm() else { return }
-            try? realm.write { realm.add(fav) }
+//            guard let realm = try? Realm() else { return }
+//            try? realm.write { realm.add(fav) }
             
         } else {
             
-            likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
-            
-            guard let realm = try? Realm() else { return }
-            try? realm.write { realm.delete(fav) }
+            likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
+            isLiked = true
+
+//            guard let realm = try? Realm() else { return }
+//            try? realm.write { realm.delete(fav) }
             
         }
         
@@ -77,7 +91,7 @@ class ImageListViewController: UICollectionViewController {
         view.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-
+        
         let textToShare = "Photo from Dog App"
         
         let objectsToShare = [textToShare, image!] as [Any]
@@ -164,6 +178,8 @@ extension ImageListViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ImageCell
+        
+        imageURL = imageResults[indexPath.row]
      
         cell.imageView.kf.setImage(with: URL(string: imageResults[indexPath.row]), placeholder: UIImage(named: ""))
 

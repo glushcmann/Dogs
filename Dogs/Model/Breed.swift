@@ -19,12 +19,13 @@ struct Image: Codable {
     let message: [String]
 }
 
-class Favourite: Object {
-    
-    @objc dynamic var Breed: [String : [String]] = [:]
-    
-    override static func primaryKey() -> String? {
-        return "Breed"
-    }
-    
-}
+//class Favourite: Object {
+//    var breed = List<Dogs>()
+//}
+//
+//class Dogs: Object {
+//    
+//    @objc dynamic var dog: String = ""
+//    @objc dynamic var images: [String]!
+//    
+//}
