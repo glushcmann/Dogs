@@ -25,6 +25,9 @@ class BaseCell: UICollectionViewCell {
 
 class ImageCell: BaseCell {
     
+    var vc = ImageListViewController()
+    let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -33,13 +36,29 @@ class ImageCell: BaseCell {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
+    let likeButton: UIButton = {
+        let button = UIButton()
+        return button
+    }()
+    
+    @objc func likeTapped() {
+        vc.addToFavourite(cell: self)
+    }
 
     override func setupViews() {
     
         addSubview(imageView)
+        addSubview(likeButton)
         
-        addConstrint(withVisualFormat: "H:|[v0]|", views: imageView)
+        addConstrint(withVisualFormat: "H:[v0]-50-|", views: likeButton)
+        addConstrint(withVisualFormat: "V:[v0]-70-|", views: likeButton)
+         
+        addConstrint(withVisualFormat: "H:|-10-[v0]-10-|", views: imageView)
         addConstrint(withVisualFormat: "V:|[v0]|", views: imageView)
+        
+        likeButton.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
+        likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
         
     }
 }

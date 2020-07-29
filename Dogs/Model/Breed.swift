@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import RealmSwift
+//import RealmSwift
 
 struct Breed : Codable {
     let status: String
@@ -29,3 +29,13 @@ struct Image: Codable {
 //    @objc dynamic var images: [String]!
 //    
 //}
+
+struct Favourite {
+    var dogs: [Dog]
+}
+
+struct Dog {
+    let breed: String
+    let image: String
+    var hasFavourited: Bool
+}

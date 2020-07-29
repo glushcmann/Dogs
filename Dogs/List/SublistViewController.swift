@@ -93,7 +93,7 @@ extension SublistViewController {
         
         let layout = UICollectionViewFlowLayout()
         let vc = ImageListViewController(collectionViewLayout: layout)
-        vc.breed = subBreedResults[indexPath.row]
+        vc.breed = subBreedResults[indexPath.row].capitalized
         vc.navigationItem.title = subBreedResults[indexPath.row].capitalized
         self.navigationController?.pushViewController(vc, animated: false)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))

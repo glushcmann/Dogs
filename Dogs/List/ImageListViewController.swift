@@ -8,32 +8,20 @@
 
 import UIKit
 import Kingfisher
-import RealmSwift
+//import RealmSwift
 
 class ImageListViewController: UICollectionViewController {
     
     private let cellID = "cellID"
     
+    var dogs = [Dog]()
     var breed: String = ""
-    var imageURL: String = ""
-    var imageURLArray: [String]!
-    var isLiked: Bool = false
-    
-//    let favorites = Favourite()
-//    let dogs = Dogs()
     
     var dogImage: [Image]!
     var imageResults = [String]()
     let router = ApiRouter()
     
-    let defaults = UserDefaults.standard
     let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
-    
-    let likeButton: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
-        return button
-    }()
     
     let load: UIActivityIndicatorView = {
         let load = UIActivityIndicatorView()
@@ -41,47 +29,28 @@ class ImageListViewController: UICollectionViewController {
         return load
     }()
     
-    func setupUI() {
+    func addToFavourite(cell: ImageCell) {
         
-        self.view.addSubview(likeButton)
-        self.view.addSubview(load)
+        guard let indexPathTapped = collectionView.indexPath(for: cell) else { return }
+        let dog = dogs[indexPathTapped.row]
+        let hasFavourited = dog.hasFavourited
+        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
         
-        addConstrint(withVisualFormat: "H:[v0]-50-|", views: likeButton)
-        addConstrint(withVisualFormat: "V:[v0]-50-|", views: likeButton)
+        dogs[indexPathTapped.row].hasFavourited = !hasFavourited
         
-        load.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
+        if dog.hasFavourited {
+            cell.likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+        } else {
+            cell.likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
+        }
         
-        likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
-        
-//        if dogs.images!.isEmpty {
-//            isLiked = false
-//            likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
-//        } else {
-//            isLiked = true
-//            likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
-//        }
+        print(dog)
         
     }
     
-    @objc func likeTapped() {
-    
-        if isLiked {
-            
-            likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
-            isLiked = false
-            
-//            guard let realm = try? Realm() else { return }
-//            try? realm.write { realm.add(fav) }
-            
-        } else {
-            
-            likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
-            isLiked = true
-
-//            guard let realm = try? Realm() else { return }
-//            try? realm.write { realm.delete(fav) }
-            
-        }
+    func setupUI() {
+        self.view.addSubview(load)
+        load.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
     }
     
     @objc func sharePhoto() {
@@ -117,7 +86,8 @@ class ImageListViewController: UICollectionViewController {
         layout.minimumLineSpacing = 0.0
         layout.itemSize = UIScreen.main.bounds.size
         layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
-
+        
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .systemBackground
         collectionView.register(ImageCell.self, forCellWithReuseIdentifier: cellID)
@@ -129,6 +99,7 @@ class ImageListViewController: UICollectionViewController {
         
         setupUI()
         requestImages()
+        
     }
     
     func requestImages() {
@@ -138,20 +109,19 @@ class ImageListViewController: UICollectionViewController {
                 self.dogImage = imageData
             } else {
                 
-                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                      switch action.style{
-                      case .default:
-                            print("default")
-                      case .cancel:
-                            print("cancel")
-
-                      case .destructive:
-                            print("destructive")
-                      @unknown default:
-                        print("Error: \(String(describing: error))")
-                    }}))
-                self.present(alert, animated: true, completion: nil)
+//                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                      switch action.style{
+//                      case .default:
+//                            print("default")
+//                      case .cancel:
+//                            print("cancel")
+//                      case .destructive:
+//                            print("destructive")
+//                      @unknown default:
+//                        print("Error: \(String(describing: error))")
+//                    }}))
+//                self.present(alert, animated: true, completion: nil)
                 
             }
 
@@ -159,7 +129,11 @@ class ImageListViewController: UICollectionViewController {
             for imageType in imageArray {
                 self.imageResults.append(imageType)
             }
-
+            
+            for image in self.imageResults {
+                self.dogs.append(Dog(breed: self.breed, image: image, hasFavourited: false))
+            }
+            
             self.collectionView.reloadData()
             self.load.stopAnimating()
             
@@ -178,10 +152,10 @@ extension ImageListViewController {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ImageCell
         
-        imageURL = imageResults[indexPath.row]
-     
+        cell.vc = self
         cell.imageView.kf.setImage(with: URL(string: imageResults[indexPath.row]), placeholder: UIImage(named: ""))
 
         return cell
+        
     }
 }

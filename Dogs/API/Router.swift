@@ -30,22 +30,22 @@ class ApiRouter: UIViewController {
                     print("Unable to decode data")
                 }
                 
-            case .failure(let error):
+            case .failure(let error): break
                 
-                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                      switch action.style{
-                      case .default:
-                            print("default")
-                      case .cancel:
-                            print("cancel")
-
-                      case .destructive:
-                            print("destructive")
-                      @unknown default:
-                        print("Error: \(String(describing: error))")
-                    }}))
-                self.present(alert, animated: true, completion: nil)
+//                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                      switch action.style{
+//                      case .default:
+//                            print("default")
+//                      case .cancel:
+//                            print("cancel")
+//
+//                      case .destructive:
+//                            print("destructive")
+//                      @unknown default:
+//                        print("Error: \(String(describing: error))")
+//                    }}))
+//                self.present(alert, animated: true, completion: nil)
                 
             }
             
@@ -66,22 +66,23 @@ class ApiRouter: UIViewController {
                     completion([result], nil)
                 }
                 
-            case .failure(let error):
+            case .failure(let error): break
             
-                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                      switch action.style{
-                      case .default:
-                            print("default")
-                      case .cancel:
-                            print("cancel")
-
-                      case .destructive:
-                            print("destructive")
-                      @unknown default:
-                        print("Error: \(String(describing: error))")
-                    }}))
-                self.present(alert, animated: true, completion: nil)
+//                let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                      switch action.style{
+//                      case .default:
+//                            print("default")
+//                      case .cancel:
+//                            print("cancel")
+//
+//                      case .destructive:
+//                            print("destructive")
+//                      @unknown default:
+//                        print("Error: \(String(describing: error))")
+//                    }}))
+//                self.present(alert, animated: true, completion: nil)
+                
             }
         }
     }

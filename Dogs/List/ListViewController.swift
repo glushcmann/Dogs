@@ -112,6 +112,7 @@ extension ListViewController {
             
             let layout = UICollectionViewFlowLayout()
             let vc = ImageListViewController(collectionViewLayout: layout)
+            vc.breed = breedResults[indexPath.row].capitalized
             vc.navigationItem.title = breedResults[indexPath.row].capitalized
             navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
             navigationController?.pushViewController(vc, animated: true)
