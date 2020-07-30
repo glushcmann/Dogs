@@ -13,6 +13,8 @@ import RealmSwift
 class ImageListViewController: UICollectionViewController {
     
     private let cellID = "cellID"
+    let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
+    var imageShowing = 0
     
     let realm = try! Realm()
     var dogs = Dog()
@@ -22,8 +24,6 @@ class ImageListViewController: UICollectionViewController {
     var dogImage: [Image]!
     var imageResults = [String]()
     let router = ApiRouter()
-    
-    let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
     
     let load: UIActivityIndicatorView = {
         let load = UIActivityIndicatorView()
@@ -60,19 +60,12 @@ class ImageListViewController: UICollectionViewController {
     
     @objc func sharePhoto() {
         
-        UIGraphicsBeginImageContext(view.frame.size)
-        view.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        let textToShare = "Photo from Dog App"
-        
-        let objectsToShare = [textToShare, image!] as [Any]
-        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        let imageURl = imageResults[imageShowing]
+        let activityVC = UIActivityViewController(activityItems: [imageURl], applicationActivities: nil)
 
-        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
-
+        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.message]
         activityVC.popoverPresentationController?.sourceView = UIView()
+        
         self.present(activityVC, animated: true, completion: nil)
         
     }
@@ -104,6 +97,8 @@ class ImageListViewController: UICollectionViewController {
         
         setupUI()
         requestImages()
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
         
     }
     
@@ -171,9 +166,12 @@ extension ImageListViewController {
         let collectionviewData = realm.objects(Dog.self)
         let dog = collectionviewData[indexPath.row]
         
+        imageShowing = indexPath.row
+        
         cell.vc = self
         cell.imageView.kf.setImage(with: URL(string: imageResults[indexPath.row]), placeholder: UIImage(named: ""))
         
+        //отображается не по лайку фото а по номеру ячейки в котором был лайк
         if dog.hasFavourited {
             cell.likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
         } else {
