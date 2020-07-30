@@ -8,13 +8,15 @@
 
 import UIKit
 import Kingfisher
-//import RealmSwift
+import RealmSwift
 
 class ImageListViewController: UICollectionViewController {
     
     private let cellID = "cellID"
     
-    var dogs = [Dog]()
+    let realm = try! Realm()
+    var dogs = Dog()
+    var dogResults: [Dog]?
     var breed: String = ""
     
     var dogImage: [Image]!
@@ -31,20 +33,23 @@ class ImageListViewController: UICollectionViewController {
     
     func addToFavourite(cell: ImageCell) {
         
+        let collectionviewData = realm.objects(Dog.self)
         guard let indexPathTapped = collectionView.indexPath(for: cell) else { return }
-        let dog = dogs[indexPathTapped.row]
+        let dog = collectionviewData[indexPathTapped.row]
         let hasFavourited = dog.hasFavourited
         let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
         
-        dogs[indexPathTapped.row].hasFavourited = !hasFavourited
-        
+        try! self.realm.write {
+            dog.hasFavourited = !hasFavourited
+        }
+
         if dog.hasFavourited {
             cell.likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
         } else {
             cell.likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
         }
         
-        print(dog)
+        collectionView.reloadData()
         
     }
     
@@ -125,13 +130,24 @@ class ImageListViewController: UICollectionViewController {
                 
             }
 
+            //add elements to imageResults
             let imageArray = self.dogImage[0].message
             for imageType in imageArray {
                 self.imageResults.append(imageType)
             }
             
+            //add elements to database
             for image in self.imageResults {
-                self.dogs.append(Dog(breed: self.breed, image: image, hasFavourited: false))
+                
+                let dog = Dog()
+                dog.breed = self.breed
+                dog.image = image
+                dog.hasFavourited = false
+                
+                try! self.realm.write {
+                    self.realm.add(dog)
+                }
+                
             }
             
             self.collectionView.reloadData()
@@ -152,8 +168,17 @@ extension ImageListViewController {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ImageCell
         
+        let collectionviewData = realm.objects(Dog.self)
+        let dog = collectionviewData[indexPath.row]
+        
         cell.vc = self
         cell.imageView.kf.setImage(with: URL(string: imageResults[indexPath.row]), placeholder: UIImage(named: ""))
+        
+        if dog.hasFavourited {
+            cell.likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
+        } else {
+            cell.likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+        }
 
         return cell
         

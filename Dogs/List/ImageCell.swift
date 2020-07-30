@@ -58,7 +58,6 @@ class ImageCell: BaseCell {
         addConstrint(withVisualFormat: "V:|[v0]|", views: imageView)
         
         likeButton.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
-        likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
         
     }
 }
