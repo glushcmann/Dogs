@@ -58,14 +58,43 @@ class ImageListViewController: UICollectionViewController {
         load.center = CGPoint(x: view.frame.size.width/2, y: view.frame.size.height/2)
     }
     
-    @objc func sharePhoto() {
+    @objc func openAlert() {
+        
+        let optionMenu = UIAlertController(title: nil, message: "Share photo", preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            self.sharePhoto()
+        })
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        
+        optionMenu.addAction(shareAction)
+        optionMenu.addAction(cancelAction)
+        
+        self.present(optionMenu, animated: true)
+        
+    }
+    
+    func sharePhoto() {
         
         let imageURl = imageResults[imageShowing]
-        let activityVC = UIActivityViewController(activityItems: [imageURl], applicationActivities: nil)
+        var image: UIImage?
+        let url = URL(string: imageURl)
+        let data = try? Data(contentsOf: url!)
+
+        if let imageData = data {
+            image = UIImage(data: imageData)
+        }
+        
+        let shareItems = [breed, image!] as [Any]
+
+        let activityVC = UIActivityViewController(activityItems: shareItems, applicationActivities: nil)
 
         activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.message]
         activityVC.popoverPresentationController?.sourceView = UIView()
-        
+
         self.present(activityVC, animated: true, completion: nil)
         
     }
@@ -77,7 +106,7 @@ class ImageListViewController: UICollectionViewController {
         load.startAnimating()
         
         self.tabBarController?.tabBar.isHidden = true
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(sharePhoto))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),style: .plain, target: self, action: #selector(openAlert))
         
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0.0
@@ -97,8 +126,6 @@ class ImageListViewController: UICollectionViewController {
         
         setupUI()
         requestImages()
-        
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
         
     }
     
