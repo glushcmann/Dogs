@@ -25,7 +25,8 @@ class BaseCell: UICollectionViewCell {
 
 class ImageCell: BaseCell {
     
-    var vc = ImageListViewController()
+    var listVC = ImageListViewController()
+    var favVC = FavouritesImagesViewController()
     let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
     
     let imageView: UIImageView = {
@@ -43,7 +44,8 @@ class ImageCell: BaseCell {
     }()
     
     @objc func likeTapped() {
-        vc.addToFavourite(cell: self)
+        listVC.addToFavourite(cell: self)
+//        favVC.addToFavourite(cell: self)
     }
 
     override func setupViews() {

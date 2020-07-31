@@ -12,12 +12,12 @@ import RealmSwift
 class FavouritesViewController: UITableViewController {
     
     let realm = try! Realm()
-    var breed: String = ""
     
     private let cellID = "cellID"
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -36,13 +36,15 @@ extension FavouritesViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //  отобразить все лайки
+        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         let collectionviewData = realm.objects(Dog.self).filter("hasFavourited = true")
         let dog = collectionviewData[indexPath.row]
+        let breed: String = dog.breed!
+        let numberOfPhotoInBreed = collectionviewData.filter("breed = '\(breed)'").count
         
-        cell.textLabel?.text = dog.breed
+        cell.textLabel?.text = "\(breed) (\(numberOfPhotoInBreed) photos)"
         cell.accessoryType = .disclosureIndicator
         
         return cell
@@ -50,10 +52,23 @@ extension FavouritesViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let collectionviewData = realm.objects(Dog.self).filter("hasFavourited = true")
+        let dog = collectionviewData[indexPath.row]
+        
+
+        
         let layout = UICollectionViewFlowLayout()
         let vc = FavouritesImagesViewController(collectionViewLayout: layout)
-        vc.breed = breed
+        vc.breed = dog.breed!
+        vc.navigationItem.title = dog.breed
+        self.navigationController?.pushViewController(vc, animated: false)
         
+//        let layout = UICollectionViewFlowLayout()
+//        let vc = ImageListViewController(collectionViewLayout: layout)
+//        vc.breed = subBreedResults[indexPath.row].capitalized
+//        vc.navigationItem.title = subBreedResults[indexPath.row].capitalized
+//        self.navigationController?.pushViewController(vc, animated: false)
+//        navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
     }
     
 }
