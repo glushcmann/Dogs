@@ -25,8 +25,6 @@ class FavouritesImagesViewController: UICollectionViewController {
         return load
     }()
     
-    
-    //TODO: fix like button возможно проблема в том что вьюха ячейки ссылается на две коллекции, одна из которых не инициализирована с лэйауотом
     func addToFavourite(cell: FavouritesImageCell) {
         
         let collectionviewData = self.realm.objects(Dog.self).filter("breed = '\(self.breed)'")
@@ -152,12 +150,10 @@ extension FavouritesImagesViewController {
         
         image = dog.image!
         
-//        cell.favVC = self
         cell.imageView.kf.setImage(with: URL(string: dog.image!), placeholder: UIImage(named: ""))
         cell.favVC = self
         load.stopAnimating()
         
-        //отображается не по лайку фото а по номеру ячейки в котором был лайк
         if dog.hasFavourited {
             cell.likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
         } else {

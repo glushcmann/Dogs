@@ -15,7 +15,6 @@ class SublistViewController: UITableViewController {
     
     var breed: String = ""
     var dogBreed: [Breed]!
-//    let router = ApiRouter()
     var subBreedResults: [String] = []
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,5 +142,4 @@ extension SublistViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(popVC))
         
     }
-    
 }
