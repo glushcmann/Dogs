@@ -14,7 +14,6 @@ class ListViewController: UITableViewController {
     private let cellID = "cellID"
     
     var dogBreed: [Breed]!
-//    let router = ApiRouter()
     var breedResults: [String] = []
     var finalResult: [String : [String]] = ["":[""]]
     

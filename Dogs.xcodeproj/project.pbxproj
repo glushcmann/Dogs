@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11090C0F24C8A2DB0052BDFF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11090C0E24C8A2DB0052BDFF /* Router.swift */; };
 		110E6DBA24CCA31100C99232 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110E6DB924CCA31100C99232 /* ImageCell.swift */; };
 		110E6DBC24CCA38800C99232 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110E6DBB24CCA38800C99232 /* Constraints.swift */; };
 		11494A9024C7402900186FA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11494A8F24C7402900186FA2 /* AppDelegate.swift */; };
@@ -25,7 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		11090C0E24C8A2DB0052BDFF /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		110E6DB924CCA31100C99232 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		110E6DBB24CCA38800C99232 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		11494A8C24C7402900186FA2 /* Dogs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dogs.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,14 +56,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		11090C1024C8A2DF0052BDFF /* API */ = {
-			isa = PBXGroup;
-			children = (
-				11090C0E24C8A2DB0052BDFF /* Router.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
 		110E6DBD24CCA39500C99232 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,7 +92,6 @@
 				11494AAB24C745B800186FA2 /* List */,
 				11494AAC24C7473E00186FA2 /* Favourites */,
 				11494AB124C74E3500186FA2 /* Model */,
-				11090C1024C8A2DF0052BDFF /* API */,
 				110E6DBD24CCA39500C99232 /* Extensions */,
 				11494A9824C7402F00186FA2 /* Assets.xcassets */,
 				11494A9A24C7402F00186FA2 /* LaunchScreen.storyboard */,
@@ -269,7 +258,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11090C0F24C8A2DB0052BDFF /* Router.swift in Sources */,
 				110E6DBA24CCA31100C99232 /* ImageCell.swift in Sources */,
 				110E6DBC24CCA38800C99232 /* Constraints.swift in Sources */,
 				11FBA6D724D5B24D005A71A6 /* FavouritesImageCell.swift in Sources */,
