@@ -24,6 +24,7 @@ class FavouritesViewController: UITableViewController {
         self.navigationItem.title = "Favourites"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.tableFooterView = UIView()
+        tableView.reloadData()
     }
     
 }

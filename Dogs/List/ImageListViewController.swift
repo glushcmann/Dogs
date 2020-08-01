@@ -9,6 +9,7 @@
 import UIKit
 import Kingfisher
 import RealmSwift
+import Alamofire
 
 class ImageListViewController: UICollectionViewController {
     
@@ -22,7 +23,6 @@ class ImageListViewController: UICollectionViewController {
     
     var dogImage: [Image]!
     var imageResults = [String]()
-    let router = ApiRouter()
     
     let load: UIActivityIndicatorView = {
         let load = UIActivityIndicatorView()
@@ -95,6 +95,27 @@ class ImageListViewController: UICollectionViewController {
         
     }
     
+    func requestImages(completion: @escaping([Image]?, Error?) -> Void) {
+        
+        let URL = "https://dog.ceo/api/breeds/image/random/10"
+        
+        AF.request(URL).responseJSON { response in
+            switch response.result {
+                
+            case .success :
+                let decoder = JSONDecoder()
+                if let result = try?
+                    decoder.decode(Image.self, from: response.data!) {
+                    completion([result], nil)
+                }
+                
+            case .failure(_):
+                self.apiAlert()
+            }
+        }
+    }
+
+    
     @objc func openAlert() {
         
         let optionMenu = UIAlertController(title: nil, message: "Share photo", preferredStyle: .actionSheet)
@@ -116,7 +137,7 @@ class ImageListViewController: UICollectionViewController {
     
     func apiAlert() {
         
-        let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Some server error", message: "Try connect later", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
               switch action.style{
               case .default:
@@ -176,10 +197,8 @@ class ImageListViewController: UICollectionViewController {
 
     }
     
-    //TODO: исправить запись элементов в бд, кажется они привязываются и обрабатываются в первую очередбъь по расположению в коллекции, возможно стоит убрать удаление элементов из бд после закрытия контроллера
-    //TODO: добавить обработчик ошибок при работе с сетью
     func dataProccesing() {
-        router.requestImages { (images, error) in
+        self.requestImages { (images, error) in
 
             if let imageData = images {
                 self.dogImage = imageData
@@ -196,7 +215,6 @@ class ImageListViewController: UICollectionViewController {
             
         }
     }
-    
 }
 
 extension ImageListViewController {
@@ -217,7 +235,6 @@ extension ImageListViewController {
         cell.listVC = self
         cell.imageView.kf.setImage(with: URL(string: image), placeholder: UIImage(named: ""))
         
-        //отображается не по лайку фото а по номеру ячейки в котором был лайк
         if dog.hasFavourited {
             cell.likeButton.setImage(UIImage(systemName: "heart.fill", withConfiguration: config), for: .normal)
         } else {

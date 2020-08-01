@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Alamofire
 
 class ListViewController: UITableViewController {
     
     private let cellID = "cellID"
     
     var dogBreed: [Breed]!
-    let router = ApiRouter()
+//    let router = ApiRouter()
     var breedResults: [String] = []
     var finalResult: [String : [String]] = ["":[""]]
     
@@ -23,8 +24,8 @@ class ListViewController: UITableViewController {
     }
     
     func apiAlert() {
-        
-        let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+
+        let alert = UIAlertController(title: "Some server error", message: "Try connect later", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
               switch action.style{
               case .default:
@@ -59,8 +60,32 @@ class ListViewController: UITableViewController {
         
     }
     
+    func requestBreeds(completion: @escaping([Breed]?, Error?) -> Void) {
+        
+        let URL = "https://dog.ceo/api/breeds/list/all"
+        
+        AF.request(URL).responseJSON { response in
+            switch response.result {
+                
+            case .success :
+                
+                let decoder = JSONDecoder()
+                if let result = try?
+                    decoder.decode(Breed.self, from: response.data!) {
+                    completion([result], nil)
+                } else {
+                    print("Unable to decode data")
+                }
+                
+            case .failure(_):
+                self.apiAlert()
+            }
+            
+        }
+    }
+    
     func requestFromApi() {
-        router.requestBreeds { (data, error) in
+        self.requestBreeds { (data, error) in
             
             if let data = data {
                 self.dogBreed = data
