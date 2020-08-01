@@ -66,6 +66,7 @@ class ImageListViewController: UICollectionViewController {
         
         collectionView.reloadData()
         
+        
     }
     
     func setupUI() {
@@ -113,6 +114,24 @@ class ImageListViewController: UICollectionViewController {
         
     }
     
+    func apiAlert() {
+        
+        let alert = UIAlertController(title: "Some erver error", message: "Try connect later", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+              switch action.style{
+              case .default:
+                    print("default")
+              case .cancel:
+                    print("cancel")
+              case .destructive:
+                    print("destructive")
+              @unknown default:
+                print("Error")
+            }}))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
     func sharePhoto() {
         
         let imageURl = imageResults[imageShowing]
@@ -148,13 +167,13 @@ class ImageListViewController: UICollectionViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
+
         let objectsToDelete = realm.objects(Dog.self).filter("hasFavourited = false")
-        
+
         try! self.realm.write {
             realm.delete(objectsToDelete)
         }
-        
+
     }
     
     //TODO: исправить запись элементов в бд, кажется они привязываются и обрабатываются в первую очередбъь по расположению в коллекции, возможно стоит убрать удаление элементов из бд после закрытия контроллера
@@ -192,11 +211,11 @@ extension ImageListViewController {
         
         let collectionviewData = realm.objects(Dog.self).filter("breed = '\(breed)'")
         let dog = collectionviewData[indexPath.row]
-        
+        let image: String = dog.image!
         imageShowing = indexPath.row
         
         cell.listVC = self
-        cell.imageView.kf.setImage(with: URL(string: imageResults[indexPath.row]), placeholder: UIImage(named: ""))
+        cell.imageView.kf.setImage(with: URL(string: image), placeholder: UIImage(named: ""))
         
         //отображается не по лайку фото а по номеру ячейки в котором был лайк
         if dog.hasFavourited {
@@ -204,7 +223,7 @@ extension ImageListViewController {
         } else {
             cell.likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
         }
-
+        
         return cell
         
     }

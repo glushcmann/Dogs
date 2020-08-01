@@ -27,25 +27,25 @@ class FavouritesImagesViewController: UICollectionViewController {
     
     
     //TODO: fix like button возможно проблема в том что вьюха ячейки ссылается на две коллекции, одна из которых не инициализирована с лэйауотом
-    func addToFavourite(cell: ImageCell) {
+    func addToFavourite(cell: FavouritesImageCell) {
         
-//        let collectionviewData = self.realm.objects(Dog.self).filter("breed = '\(self.breed)'")
-//        let indexPathTapped = self.collectionView.indexPath(for: cell)
-//        let dog = collectionviewData[indexPathTapped!.row]
-//        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
-//        let hasFavourited = dog.hasFavourited
-//
-//        try! self.realm.write {
-//            dog.hasFavourited = !hasFavourited
-//        }
-//
-//        if collectionviewData.count == 1 {
-//            self.navigationController?.popViewController(animated: true)
-//        } else {
-//            cell.likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
-//        }
-//
-//        collectionView.reloadData()
+        let collectionviewData = self.realm.objects(Dog.self).filter("breed = '\(self.breed)'")
+        let indexPathTapped = self.collectionView.indexPath(for: cell)
+        let dog = collectionviewData[indexPathTapped!.row]
+        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
+        let hasFavourited = dog.hasFavourited
+
+        try! self.realm.write {
+            dog.hasFavourited = !hasFavourited
+        }
+
+        if collectionviewData.count == 1 {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            cell.likeButton.setImage(UIImage(systemName: "heart", withConfiguration: config), for: .normal)
+        }
+
+        collectionView.reloadData()
         
     }
     
@@ -66,7 +66,7 @@ class FavouritesImagesViewController: UICollectionViewController {
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.collectionViewLayout = layout
         collectionView.backgroundColor = .systemBackground
-        collectionView.register(ImageCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.register(FavouritesImageCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
@@ -119,12 +119,21 @@ class FavouritesImagesViewController: UICollectionViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        collectionView.reloadData()
         load.startAnimating()
         setupUI()
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+
+        let objectsToDelete = realm.objects(Dog.self).filter("hasFavourited = false")
+
+        try! self.realm.write {
+            realm.delete(objectsToDelete)
+        }
+
+    }
 }
 
 extension FavouritesImagesViewController {
@@ -136,17 +145,16 @@ extension FavouritesImagesViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! ImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! FavouritesImageCell
         
         let collectionviewData = realm.objects(Dog.self).filter("breed = '\(breed)'")
         let dog = collectionviewData[indexPath.row]
         
         image = dog.image!
         
+//        cell.favVC = self
+        cell.imageView.kf.setImage(with: URL(string: dog.image!), placeholder: UIImage(named: ""))
         cell.favVC = self
-        cell.imageView.kf.setImage(with: URL(string:
-            dog.image!), placeholder: UIImage(named: ""))
-        
         load.stopAnimating()
         
         //отображается не по лайку фото а по номеру ячейки в котором был лайк

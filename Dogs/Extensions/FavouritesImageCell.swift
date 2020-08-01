@@ -1,31 +1,16 @@
 //
-//  ImageCell.swift
+//  FavouritesImageCell.swift
 //  Dogs
 //
-//  Created by Никита on 25.07.2020.
+//  Created by Никита on 01.08.2020.
 //  Copyright © 2020 Nikita Glushchenko. All rights reserved.
 //
 
 import UIKit
 
-class BaseCell: UICollectionViewCell {
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    func setupViews() {
-    }
-}
-
-class ImageCell: BaseCell {
+class FavouritesImageCell: BaseCell {
     
-    var listVC = ImageListViewController()
+    var favVC = FavouritesImagesViewController()
     let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
     
     let imageView: UIImageView = {
@@ -43,7 +28,7 @@ class ImageCell: BaseCell {
     }()
     
     @objc func likeTapped() {
-        listVC.addToFavourite(cell: self)
+        favVC.addToFavourite(cell: self)
     }
 
     override func setupViews() {
@@ -62,3 +47,4 @@ class ImageCell: BaseCell {
         
     }
 }
+

@@ -19,16 +19,6 @@ struct Image: Codable {
     let message: [String]
 }
 
-//struct Favourite {
-//    var dogs: [Dog]
-//}
-
-//struct Dog {
-//    let breed: String
-//    let image: String
-//    var hasFavourited: Bool
-//}
-
 //class Favourite: Object {
 //    @objc dynamic var dogs: [Dog] = []
 //}
