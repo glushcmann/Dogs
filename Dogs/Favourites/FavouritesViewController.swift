@@ -81,7 +81,7 @@ extension FavouritesViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let collectionviewData = realm.objects(Dog.self).filter("hasFavourited = true")
+        let collectionviewData = realm.objects(Dog.self).filter("hasFavourited = true").distinct(by: ["breed"])
         let dog = collectionviewData[indexPath.row]
         
         let layout = UICollectionViewFlowLayout()
