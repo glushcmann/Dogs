@@ -11,13 +11,35 @@ import RealmSwift
 
 class FavouritesViewController: UITableViewController {
     
-    let realm = try! Realm()
-    
     private let cellID = "cellID"
     
+    let realm = try! Realm()
+    
+    var dogs: Results<Dog>?
+    var notificationToken: NotificationToken?
+    
+    func addObserver() {
+        
+        dogs = realm.objects(Dog.self).filter("hasFavourited = true")
+        
+        notificationToken = dogs!.observe { change in
+            switch change {
+            case .update:
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            default: ()
+            }
+        }
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        
+        addObserver()
     }
     
     override func viewDidLoad() {
