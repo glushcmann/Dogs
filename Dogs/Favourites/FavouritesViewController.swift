@@ -73,7 +73,12 @@ extension FavouritesViewController {
         let breed: String = dog.breed!
         let numberOfPhotoInBreed = collectionviewDataForImage.filter("breed = '\(breed)'").count
         
-        cell.textLabel?.text = "\(breed) (\(numberOfPhotoInBreed) photos)"
+        if numberOfPhotoInBreed == 1 {
+            cell.textLabel?.text = "\(breed) (\(numberOfPhotoInBreed) photo)"
+        } else {
+            cell.textLabel?.text = "\(breed) (\(numberOfPhotoInBreed) photos)"
+        }
+        
         cell.accessoryType = .disclosureIndicator
         
         return cell

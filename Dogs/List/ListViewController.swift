@@ -129,10 +129,14 @@ extension ListViewController {
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        if finalResult[breedResults[indexPath.row]]!.count != 0 {
-            cell.textLabel?.text = "\(breedResults[indexPath.row].capitalized) (\(finalResult[breedResults[indexPath.row]]!.count) subbreeds)"
-        } else {
+        let number = finalResult[breedResults[indexPath.row]]!.count
+        
+        if  number == 1 {
+            cell.textLabel?.text = "\(breedResults[indexPath.row].capitalized) (\(finalResult[breedResults[indexPath.row]]!.count) subbreed)"
+        } else if number == 0 {
             cell.textLabel?.text = "\(breedResults[indexPath.row].capitalized)"
+        } else {
+            cell.textLabel?.text = "\(breedResults[indexPath.row].capitalized) (\(finalResult[breedResults[indexPath.row]]!.count) subbreeds)"
         }
         
         cell.accessoryType = .disclosureIndicator
