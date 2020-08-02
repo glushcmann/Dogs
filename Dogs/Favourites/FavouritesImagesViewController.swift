@@ -15,7 +15,6 @@ class FavouritesImagesViewController: UICollectionViewController {
     let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
     
     let realm = try! Realm()
-    var dogs = Dog()
     var breed: String = ""
     var image: String = ""
     
@@ -24,6 +23,25 @@ class FavouritesImagesViewController: UICollectionViewController {
         load.style = UIActivityIndicatorView.Style.large
         return load
     }()
+    
+    var dogs: Results<Dog>?
+    var notificationToken: NotificationToken?
+    
+    func addObserver() {
+        
+        dogs = realm.objects(Dog.self).filter("hasFavourited = true")
+        
+        notificationToken = dogs!.observe { change in
+            switch change {
+            case .update:
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            default: ()
+            }
+        }
+        
+    }
     
     func addToFavourite(cell: FavouritesImageCell) {
         
@@ -112,6 +130,10 @@ class FavouritesImagesViewController: UICollectionViewController {
 
         self.present(activityVC, animated: true, completion: nil)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        addObserver()
     }
     
     override func viewDidLoad() {

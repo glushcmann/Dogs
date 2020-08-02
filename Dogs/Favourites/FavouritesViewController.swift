@@ -16,12 +16,15 @@ class FavouritesViewController: UITableViewController {
     let realm = try! Realm()
     
     var dogs: Results<Dog>?
+    var dogsUnique: Results<Dog>?
     var notificationToken: NotificationToken?
+    var notificationTokenDistinct: NotificationToken?
     
     func addObserver() {
         
         dogs = realm.objects(Dog.self).filter("hasFavourited = true")
-        
+        dogsUnique = realm.objects(Dog.self).distinct(by: ["breed"])
+
         notificationToken = dogs!.observe { change in
             switch change {
             case .update:
@@ -54,18 +57,21 @@ class FavouritesViewController: UITableViewController {
 extension FavouritesViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let results = realm.objects(Dog.self).filter("hasFavourited = true").count
-        return results
+//        let results = realm.objects(Dog.self).filter("hasFavourited = true").count
+        let uniqueResults = realm.objects(Dog.self).filter("hasFavourited = true").distinct(by: ["breed"]).count
+        
+        return uniqueResults
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        let collectionviewData = realm.objects(Dog.self).filter("hasFavourited = true")
-        let dog = collectionviewData[indexPath.row]
+        let collectionviewDataForBreed = realm.objects(Dog.self).filter("hasFavourited = true").distinct(by: ["breed"])
+        let collectionviewDataForImage = realm.objects(Dog.self).filter("hasFavourited = true")
+        let dog = collectionviewDataForBreed[indexPath.row]
         let breed: String = dog.breed!
-        let numberOfPhotoInBreed = collectionviewData.filter("breed = '\(breed)'").count
+        let numberOfPhotoInBreed = collectionviewDataForImage.filter("breed = '\(breed)'").count
         
         cell.textLabel?.text = "\(breed) (\(numberOfPhotoInBreed) photos)"
         cell.accessoryType = .disclosureIndicator
