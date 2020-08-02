@@ -24,25 +24,6 @@ class FavouritesImagesViewController: UICollectionViewController {
         return load
     }()
     
-    var dogs: Results<Dog>?
-    var notificationToken: NotificationToken?
-    
-    func addObserver() {
-        
-        dogs = realm.objects(Dog.self).filter("hasFavourited = true")
-        
-        notificationToken = dogs!.observe { change in
-            switch change {
-            case .update:
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            default: ()
-            }
-        }
-        
-    }
-    
     func addToFavourite(cell: FavouritesImageCell) {
         
         let collectionviewData = self.realm.objects(Dog.self).filter("breed = '\(self.breed)'")
@@ -132,10 +113,6 @@ class FavouritesImagesViewController: UICollectionViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        addObserver()
-    }
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -185,6 +162,4 @@ extension FavouritesImagesViewController {
         return cell
         
     }
-    
-    
 }
