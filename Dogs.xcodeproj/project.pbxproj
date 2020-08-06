@@ -17,9 +17,9 @@
 		11494AAA24C745B000186FA2 /* SublistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11494AA924C745B000186FA2 /* SublistViewController.swift */; };
 		11494AAE24C7489400186FA2 /* ImageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11494AAD24C7489400186FA2 /* ImageListViewController.swift */; };
 		11494AB024C74E3100186FA2 /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11494AAF24C74E3100186FA2 /* Breed.swift */; };
+		114B272224DC31720020EEE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 114B272124DC31720020EEE5 /* Assets.xcassets */; };
 		11ABBAC524D33A3D00551A12 /* FavouritesImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ABBAC424D33A3D00551A12 /* FavouritesImagesViewController.swift */; };
 		11FBA6D724D5B24D005A71A6 /* FavouritesImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FBA6D624D5B24D005A71A6 /* FavouritesImageCell.swift */; };
-		11FBA6D924D5BBF8005A71A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11FBA6D824D5BBF8005A71A6 /* Assets.xcassets */; };
 		BE1649AD76AF493AFC151285 /* Pods_Dogs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B444082410D101EE4243A348 /* Pods_Dogs.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,9 +36,9 @@
 		11494AA924C745B000186FA2 /* SublistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SublistViewController.swift; sourceTree = "<group>"; };
 		11494AAD24C7489400186FA2 /* ImageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageListViewController.swift; sourceTree = "<group>"; };
 		11494AAF24C74E3100186FA2 /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
+		114B272124DC31720020EEE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		11ABBAC424D33A3D00551A12 /* FavouritesImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesImagesViewController.swift; sourceTree = "<group>"; };
 		11FBA6D624D5B24D005A71A6 /* FavouritesImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesImageCell.swift; sourceTree = "<group>"; };
-		11FBA6D824D5BBF8005A71A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../Downloads/AppIcons/Assets.xcassets; sourceTree = "<group>"; };
 		76CB310874EB077546ADFB83 /* Pods-Dogs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dogs.release.xcconfig"; path = "Target Support Files/Pods-Dogs/Pods-Dogs.release.xcconfig"; sourceTree = "<group>"; };
 		B444082410D101EE4243A348 /* Pods_Dogs.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dogs.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6A41F8ECC0793106DCE0244 /* Pods-Dogs.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dogs.debug.xcconfig"; path = "Target Support Files/Pods-Dogs/Pods-Dogs.debug.xcconfig"; sourceTree = "<group>"; };
@@ -93,8 +93,8 @@
 				11494AAC24C7473E00186FA2 /* Favourites */,
 				11494AB124C74E3500186FA2 /* Model */,
 				110E6DBD24CCA39500C99232 /* Extensions */,
-				11FBA6D824D5BBF8005A71A6 /* Assets.xcassets */,
 				11494A9A24C7402F00186FA2 /* LaunchScreen.storyboard */,
+				114B272124DC31720020EEE5 /* Assets.xcassets */,
 				11494A9D24C7402F00186FA2 /* Info.plist */,
 			);
 			path = Dogs;
@@ -204,8 +204,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				114B272224DC31720020EEE5 /* Assets.xcassets in Resources */,
 				11494A9C24C7402F00186FA2 /* LaunchScreen.storyboard in Resources */,
-				11FBA6D924D5BBF8005A71A6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
